@@ -1,7 +1,7 @@
 package com.das.musicplayer.mediacontrol
 
 import android.support.v4.media.session.MediaSessionCompat
-import com.das.musicplayer.MainActivity.PlayerHolder.exoPlayer
+import com.das.musicplayer.PlayerHolder.exoPlayer
 
 
 class MediaActionsListener: MediaSessionCompat.Callback() {
