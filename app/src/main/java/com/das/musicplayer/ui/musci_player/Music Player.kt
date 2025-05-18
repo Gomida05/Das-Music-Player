@@ -57,6 +57,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -86,10 +87,10 @@ import com.das.musicplayer.PlayerHolder.requestAudioFocusFromMain
 import com.das.musicplayer.mediacontrol.MediaActionsListener
 import com.das.musicplayer.notification.MusicNotificationForegroundService
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.seconds
 
 
 @Composable
@@ -122,7 +123,6 @@ fun MusicPlayerScreen(navController: NavController) {
 
 
 
-    val musicsPath = "/storage/emulated/0/Music/ForUI"
 
     exoPlayer = remember(mContext) {
         ExoPlayer.Builder(mContext).build()
@@ -133,7 +133,7 @@ fun MusicPlayerScreen(navController: NavController) {
         setCallback(MediaActionsListener())
     }
     LaunchedEffect(Unit) {
-        viewModel.fetchDataFromDatabase(musicsPath)
+        viewModel.fetchAllAudioFiles()
     }
 
 
@@ -146,6 +146,11 @@ fun MusicPlayerScreen(navController: NavController) {
 
     if (musicListFiles.isNotEmpty()){
         exoPlayer?.addMediaItems(musicListFiles)
+    }
+    if (musicListFiles.isEmpty()){
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("No music files found", color = Color.Gray)
+        }
     }
 
     DisposableEffect(Unit) {
@@ -160,13 +165,13 @@ fun MusicPlayerScreen(navController: NavController) {
         }
     }
 
-    if (isPlayingExo) {
-        LaunchedEffect(Unit) {
-            while(true) {
-                currentValue = exoPlayer?.currentPosition!!
-                delay(1.seconds / 30)
+
+    LaunchedEffect(isPlayingExo) {
+        snapshotFlow { exoPlayer?.currentPosition ?: 0L }
+            .collectLatest {
+                currentValue = it
+                delay(500)
             }
-        }
     }
 
     Box(
@@ -266,6 +271,7 @@ fun FullPlayerUI(currentTitle: String, currentArtists: String) {
             bufferedPercent = exoPlayer?.bufferedPercentage!!
             delay(500L) // Update every half second
         }
+
     }
 
 

@@ -14,8 +14,8 @@ import androidx.core.app.NotificationCompat
 import androidx.media.app.NotificationCompat.MediaStyle
 import androidx.media3.common.Player
 import androidx.media3.common.Player.Listener
-import com.das.musicplayer.MainActivity.PlayerHolder.exoPlayer
-import com.das.musicplayer.MainActivity.PlayerHolder.mediaSession
+import com.das.musicplayer.PlayerHolder.exoPlayer
+import com.das.musicplayer.PlayerHolder.mediaSession
 import com.das.musicplayer.R
 import com.das.musicplayer.dataAndNames.KeyWords.MUSIC_CHANNEL_ID
 import com.das.musicplayer.dataAndNames.KeyWords.MUSIC_NOTIFICATION_DISMISSED

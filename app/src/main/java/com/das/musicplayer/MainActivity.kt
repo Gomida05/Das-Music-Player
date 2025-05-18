@@ -86,7 +86,7 @@ class MainActivity: ComponentActivity() {
 
         setContent {
             CustomTheme {
-                MainLauncherPageComposable()
+                MusicPlayerScreen(rememberNavController())
             }
         }
     }
@@ -180,7 +180,7 @@ class MainActivity: ComponentActivity() {
             ) { paddingValues ->
 
                 NavHost(
-                    navController = navController, startDestination = "Home",
+                    navController = navController, startDestination = "ExoPlayerUI",
                     modifier = Modifier.padding(paddingValues)
                 ) {
                     composable("Home") {

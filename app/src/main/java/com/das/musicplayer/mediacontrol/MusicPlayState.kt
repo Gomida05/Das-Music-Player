@@ -4,7 +4,7 @@ import android.support.v4.media.session.PlaybackStateCompat
 import androidx.annotation.OptIn
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.compose.state.PlaybackSpeedState
-import com.das.musicplayer.MainActivity.PlayerHolder.exoPlayer
+import com.das.musicplayer.PlayerHolder.exoPlayer
 
 object MusicPlayState {
 
